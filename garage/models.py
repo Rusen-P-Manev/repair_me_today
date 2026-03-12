@@ -22,22 +22,30 @@ class Client(models.Model):
         verbose_name="ЕИК/Булстат",
     )
 
-    address = models.TextField(
+    address_city = models.CharField(
+        max_length=20,
         blank=True,
         null=True,
-        verbose_name="Адрес и седалище",
+        verbose_name="Град",
+    )
+
+    address_street = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        verbose_name="Улица и №",
+    )
+
+    address_zip = models.CharField(
+        max_length=10,
+        blank=True,
+        null=True,
+        verbose_name="Пощенски код",
     )
 
     first_name = models.CharField(
         max_length=20,
         verbose_name="Име / МОЛ",
-    )
-
-    middle_name = models.CharField(
-        max_length=20,
-        blank=True,
-        null=True,
-        verbose_name="Презиме",
     )
 
     last_name = models.CharField(

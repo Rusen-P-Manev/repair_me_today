@@ -1,5 +1,18 @@
 from django.contrib import admin
-from .models import RepairJob, RepairPart
+from .models import RepairJob, Service, RepairService
+
+
+class RepairServiceInline(admin.TabularInline):
+    model = RepairService
+    extra = 1
+
+
+@admin.register(Service)
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "price",
+    )
 
 
 @admin.register(RepairJob)
@@ -8,34 +21,15 @@ class RepairJobAdmin(admin.ModelAdmin):
         "id",
         "vehicle",
         "status",
-        "created_at",
+        "access_token",
     )
-    list_filter = (
-        "status",
-        "created_at",
+
+    inlines = (
+        RepairServiceInline,
     )
-    search_fields = (
-        "vehicle__license_plate",
-        "vehicle__vin",
-    )
+
     readonly_fields = (
+        "access_token",
         "created_at",
         "updated_at",
-    )
-
-
-@admin.register(RepairPart)
-class RepairPartAdmin(admin.ModelAdmin):
-    list_display = (
-        "description",
-        "repair_job",
-        "status",
-        "price",
-    )
-    list_filter = (
-        "status",
-    )
-    search_fields = (
-        "description",
-        "repair_job__vehicle__license_plate",
     )

@@ -36,7 +36,6 @@ PROJECT_APPS = [
     'employees',
     'garage',
     'invoicing',
-    'prices',
     'repairs'
 ]
 

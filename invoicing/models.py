@@ -1,6 +1,45 @@
 from django.db import models
 
 
+class ShopProfile(models.Model):
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Име на сервиза",
+    )
+
+    eik = models.CharField(
+        max_length=20,
+        verbose_name="ЕИК",
+    )
+
+    vat_number = models.CharField(
+        max_length=20,
+        verbose_name="ДДС Номер",
+    )
+
+    address = models.CharField(
+        max_length=200,
+        verbose_name="Адрес на сервиза",
+    )
+
+    mol = models.CharField(
+        max_length=50,
+        verbose_name="МОЛ",
+    )
+
+    iban = models.CharField(
+        max_length=30,
+        verbose_name="IBAN",
+    )
+
+    class Meta:
+        verbose_name = "Профил на сервиза"
+        verbose_name_plural = "Профил на сервиза"
+
+    def __str__(self):
+        return self.name
+
+
 class Invoice(models.Model):
     repair_job = models.OneToOneField(
         "repairs.RepairJob",
@@ -9,18 +48,25 @@ class Invoice(models.Model):
         verbose_name="Работен картон",
     )
 
-    total_labor_amount = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0.00,
-        verbose_name="Общо за труд",
+    invoice_number = models.CharField(
+        max_length=10,
+        unique=True,
+        verbose_name="Фактура №",
     )
 
-    total_parts_amount = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0.00,
-        verbose_name="Общо за части",
+    is_corporate = models.BooleanField(
+        default=False,
+        verbose_name="Юридическо лице",
+    )
+
+    client_name = models.CharField(
+        max_length=20,
+        verbose_name="Получател (Име/Фирма)",
+    )
+
+    tax_id = models.CharField(
+        max_length=20,
+        verbose_name="ЕИК/ЕГН",
     )
 
     total_amount = models.DecimalField(
@@ -35,25 +81,14 @@ class Invoice(models.Model):
         verbose_name="Платена",
     )
 
-    email_sent = models.BooleanField(
-        default=False,
-        verbose_name="Имейлът е изпратен",
-    )
-
-    archive_snapshot = models.JSONField(
-        null=True,
-        blank=True,
-        verbose_name="Архив (JSON Снимка на ремонта)",
-    )
-
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Създадена на",
     )
 
     class Meta:
-        verbose_name = "Фактура / Архив"
-        verbose_name_plural = "Фактури / Архиви"
+        verbose_name = "Фактура"
+        verbose_name_plural = "Фактури"
 
     def __str__(self):
-        return f"Фактура за Картон #{self.repair_job.id} - Тотал: {self.total_amount} лв."
+        return f"Фактура №{self.invoice_number} - {self.client_name}"

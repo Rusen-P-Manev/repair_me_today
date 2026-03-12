@@ -11,9 +11,11 @@ class ClientAdmin(admin.ModelAdmin):
         "company_name",
         "phone_number",
     )
+
     list_filter = (
         "is_corporate",
     )
+
     search_fields = (
         "first_name",
         "last_name",
@@ -31,14 +33,8 @@ class VehicleAdmin(admin.ModelAdmin):
         "model",
         "client",
     )
-    list_filter = (
-        "make",
-        "year",
-    )
+
     search_fields = (
         "vehicle_registration_number",
         "vin",
-        "client__first_name",
-        "client__last_name",
-        "client__company_name",
     )

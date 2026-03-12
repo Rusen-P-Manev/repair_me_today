@@ -9,9 +9,11 @@ class EmployeeAdmin(admin.ModelAdmin):
         "last_name",
         "position",
     )
+
     list_filter = (
         "position",
     )
+
     search_fields = (
         "first_name",
         "last_name",

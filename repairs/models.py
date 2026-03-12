@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 
 
@@ -8,12 +9,24 @@ class RepairStatusChoices(models.TextChoices):
     COMPLETED = "completed", "Завършен"
 
 
-class PartStatusChoices(models.TextChoices):
-    CLIENT_PROVIDED = "client_provided", "Осигурена от клиента"
-    TO_ORDER = "to_order", "За поръчка"
-    ORDERED = "ordered", "Поръчана"
-    DELIVERED = "delivered", "Доставена"
-    NOT_AVAILABLE = "not_available", "Не е налична"
+class Service(models.Model):
+    name = models.CharField(
+        max_length=300,
+        verbose_name="Име на услугата",
+    )
+
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name="Цена труд (лв.)",
+    )
+
+    class Meta:
+        verbose_name = "Услуга (Ценоразпис)"
+        verbose_name_plural = "Услуги (Ценоразпис)"
+
+    def __str__(self):
+        return f"{self.name} - {self.price} лв."
 
 
 class RepairJob(models.Model):
@@ -25,7 +38,7 @@ class RepairJob(models.Model):
     )
 
     problem_description = models.TextField(
-        verbose_name="Описание на проблема от клиента",
+        verbose_name="Описание на проблема",
     )
 
     received_by = models.ForeignKey(
@@ -34,15 +47,6 @@ class RepairJob(models.Model):
         null=True,
         related_name="received_jobs",
         verbose_name="Приел автомобила",
-    )
-
-    ordered_by = models.ForeignKey(
-        "employees.Employee",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="ordered_parts_jobs",
-        verbose_name="Поръчал части",
     )
 
     repaired_by = models.ForeignKey(
@@ -54,11 +58,13 @@ class RepairJob(models.Model):
         verbose_name="Извършил ремонта",
     )
 
+    # Many-to-Many през междинен модел за количество
     services = models.ManyToManyField(
-        "prices.Service",
+        "Service",
+        through="RepairService",
         blank=True,
         related_name="repair_jobs",
-        verbose_name="Извършени услуги (Труд)",
+        verbose_name="Извършени услуги",
     )
 
     status = models.CharField(
@@ -66,6 +72,13 @@ class RepairJob(models.Model):
         choices=RepairStatusChoices.choices,
         default=RepairStatusChoices.RECEIVED,
         verbose_name="Статус на ремонта",
+    )
+
+    access_token = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        unique=True,
+        verbose_name="Код за проследяване",
     )
 
     created_at = models.DateTimeField(
@@ -83,47 +96,32 @@ class RepairJob(models.Model):
         verbose_name_plural = "Работни картони"
 
     def __str__(self):
-        return f"Картон #{self.id} - {self.vehicle.vehicle_registration_number} ({self.get_status_display()})"
+        return f"Картон #{self.id} - {self.vehicle.vehicle_registration_number}"
 
 
-class RepairPart(models.Model):
+class RepairService(models.Model):
     repair_job = models.ForeignKey(
         "RepairJob",
         on_delete=models.CASCADE,
-        related_name="parts",
         verbose_name="Работен картон",
     )
 
-    description = models.CharField(
-        max_length=255,
-        verbose_name="Описание на частта",
+    service = models.ForeignKey(
+        "Service",
+        on_delete=models.CASCADE,
+        verbose_name="Избрана услуга",
     )
 
-    status = models.CharField(
-        max_length=30,
-        choices=PartStatusChoices.choices,
-        default=PartStatusChoices.TO_ORDER,
-        verbose_name="Статус на частта",
-    )
-
-    price = models.DecimalField(
-        max_digits=10,
+    quantity = models.DecimalField(
+        max_digits=5,
         decimal_places=2,
-        null=True,
-        blank=True,
-        verbose_name="Цена (лв.)",
-    )
-
-    document_number = models.CharField(
-        max_length=100,
-        null=True,
-        blank=True,
-        verbose_name="Номер на документ",
+        default=1.00,
+        verbose_name="Количество / Часове",
     )
 
     class Meta:
-        verbose_name = "Резервна част (към ремонт)"
-        verbose_name_plural = "Резервни части (към ремонти)"
+        verbose_name = "Услуга към ремонт"
+        verbose_name_plural = "Услуги към ремонти"
 
     def __str__(self):
-        return f"{self.description} ({self.get_status_display()})"
+        return f"{self.service.name} x {self.quantity}"
