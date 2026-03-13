@@ -1,4 +1,5 @@
 from django.db import models
+from common.validators import validate_name_letters_only
 
 
 class Employee(models.Model):
@@ -9,11 +10,13 @@ class Employee(models.Model):
 
     last_name = models.CharField(
         max_length=20,
+        validators=[validate_name_letters_only],
         verbose_name="Фамилия",
     )
 
     position = models.CharField(
         max_length=30,
+        validators=[validate_name_letters_only],
         verbose_name="Длъжност",
     )
 

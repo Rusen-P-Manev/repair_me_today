@@ -36,7 +36,8 @@ PROJECT_APPS = [
     'employees',
     'garage',
     'invoicing',
-    'repairs'
+    'repairs',
+    'common',
 ]
 
 INSTALLED_APPS = [

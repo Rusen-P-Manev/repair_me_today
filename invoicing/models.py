@@ -1,4 +1,10 @@
 from django.db import models
+from common.validators import (
+    validate_eik,
+    validate_tax_id,
+    validate_iban,
+    validate_vat_number,
+)
 
 
 class ShopProfile(models.Model):
@@ -9,11 +15,13 @@ class ShopProfile(models.Model):
 
     eik = models.CharField(
         max_length=20,
+        validators=[validate_eik],
         verbose_name="ЕИК",
     )
 
     vat_number = models.CharField(
         max_length=20,
+        validators=[validate_vat_number],
         verbose_name="ДДС Номер",
     )
 
@@ -29,6 +37,7 @@ class ShopProfile(models.Model):
 
     iban = models.CharField(
         max_length=30,
+        validators=[validate_iban],
         verbose_name="IBAN",
     )
 
@@ -66,6 +75,7 @@ class Invoice(models.Model):
 
     tax_id = models.CharField(
         max_length=20,
+        validators=[validate_tax_id],
         verbose_name="ЕИК/ЕГН",
     )
 

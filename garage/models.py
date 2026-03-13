@@ -1,4 +1,12 @@
 from django.db import models
+from common.validators import (
+    validate_eik,
+    validate_phone_number,
+    validate_vin,
+    custom_email_validator,
+    validate_year,
+    validate_name_letters_only,
+)
 
 
 class Client(models.Model):
@@ -19,6 +27,7 @@ class Client(models.Model):
         blank=True,
         null=True,
         unique=True,
+        validators=[validate_eik],
         verbose_name="ЕИК/Булстат",
     )
 
@@ -45,22 +54,26 @@ class Client(models.Model):
 
     first_name = models.CharField(
         max_length=20,
+        validators=[validate_name_letters_only],
         verbose_name="Име / МОЛ",
     )
 
     last_name = models.CharField(
         max_length=20,
+        validators=[validate_name_letters_only],
         verbose_name="Фамилия",
     )
 
     phone_number = models.CharField(
         max_length=20,
+        validators=[validate_phone_number],
         verbose_name="Телефон",
     )
 
     email = models.EmailField(
         blank=True,
         null=True,
+        validators=[custom_email_validator],
         verbose_name="Имейл",
     )
 
@@ -99,12 +112,15 @@ class Vehicle(models.Model):
     )
 
     year = models.PositiveIntegerField(
+        validators=[validate_year],
         verbose_name="Година на производство",
+
     )
 
     vin = models.CharField(
         max_length=100,
         unique=True,
+        validators=[validate_vin],
         verbose_name="VIN номер",
     )
 
