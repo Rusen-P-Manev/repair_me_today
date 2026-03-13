@@ -135,46 +135,46 @@ class RepairService(models.Model):
     def __str__(self):
         return f"{self.service.name} x {self.quantity}"
 
-    class PartOrder(models.Model):
-        repair_job = models.ForeignKey(
-            "RepairJob",
-            on_delete=models.CASCADE,
-            related_name="parts",
-            verbose_name="Работен картон",
-        )
+class PartOrder(models.Model):
+    repair_job = models.ForeignKey(
+        "RepairJob",
+        on_delete=models.CASCADE,
+        related_name="parts",
+        verbose_name="Работен картон",
+    )
 
-        status = models.CharField(
-            max_length=20,
-            choices=PartOrderStatusChoices.choices,
-            default=PartOrderStatusChoices.WAITING_DELIVERY,
-            verbose_name="Статус на частта",
-        )
+    status = models.CharField(
+        max_length=20,
+        choices=PartOrderStatusChoices.choices,
+        default=PartOrderStatusChoices.WAITING_DELIVERY,
+        verbose_name="Статус на частта",
+    )
 
-        description = models.CharField(
-            max_length=255,
-            verbose_name="Описание на частта/частите",
-            help_text="Напр. Накладки, Маслен филтър и др."
-        )
+    description = models.CharField(
+        max_length=255,
+        verbose_name="Описание на частта/частите",
+        help_text="Напр. Накладки, Маслен филтър и др."
+    )
 
-        invoice_number = models.CharField(
-            max_length=50,
-            blank=True,
-            null=True,
-            verbose_name="Номер на доставна фактура",
-        )
+    invoice_number = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        verbose_name="Номер на доставна фактура",
+    )
 
-        price = models.DecimalField(
-            max_digits=10,
-            decimal_places=2,
-            blank=True,
-            null=True,
-            validators=[MinValueValidator(0.01)],
-            verbose_name="Цена на частта",
-        )
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        validators=[MinValueValidator(0.01)],
+        verbose_name="Цена на частта",
+    )
 
-        class Meta:
-            verbose_name = "Авточаст към ремонт"
-            verbose_name_plural = "Авточасти към ремонти"
+    class Meta:
+        verbose_name = "Авточаст към ремонт"
+        verbose_name_plural = "Авточасти към ремонти"
 
-        def __str__(self):
-            return f"{self.description} - {self.get_status_display()}"
+    def __str__(self):
+        return f"{self.description} - {self.get_status_display()}"
