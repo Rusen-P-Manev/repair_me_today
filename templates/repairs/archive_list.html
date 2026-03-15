@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Архив - RepairMeToday{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="display-5 fw-bold text-secondary">📁 Архив на приключени ремонти</h1>
+</div>
+
+<div class="card kiosk-card p-3 border-secondary border-top border-4">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped align-middle fs-5 mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Архивен запис (ID)</th>
+                        <th class="text-end">Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for archive in archives %}
+                    <tr>
+                        <td class="fw-bold text-dark">
+                            Архив #{{ archive.id }}
+                        </td>
+                        <td class="text-end">
+                            <button type="button" class="btn btn-info text-white btn-lg fw-bold" data-bs-toggle="modal" data-bs-target="#archiveModal{{ archive.id }}">
+                                👁️ Преглед на JSON данните
+                            </button>
+                        </td>
+                    </tr>
+
+                    <div class="modal fade" id="archiveModal{{ archive.id }}" tabindex="-1" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header bg-dark text-white">
+                            <h5 class="modal-title">Данни за запис #{{ archive.id }}</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body bg-light">
+                              <pre class="bg-dark text-success p-3 rounded fs-6" style="max-height: 500px; overflow-y: auto;">{{ archive.repair_data|pprint }}</pre>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2" class="text-center text-muted py-5">
+                            <h4>Архивът е празен. Тук ще се появяват платените ремонти.</h4>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

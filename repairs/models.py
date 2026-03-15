@@ -4,10 +4,9 @@ from django.core.validators import MinValueValidator
 
 
 class PartOrderStatusChoices(models.TextChoices):
-    CLIENT_PROVIDED = "client_provided", "Части на клиента"
-    WAITING_DELIVERY = "waiting_delivery", "Чака доставка"
-    SEARCHING = "searching", "Търсят се"
-    DELIVERED = "delivered", "Доставени"
+    FOR_ORDER = "for_order", "За поръчка"
+    ORDERED = "ordered", "Поръчана/и"
+    DELIVERED = "delivered", "Доставена/и"
 
 
 class RepairStatusChoices(models.TextChoices):
@@ -27,7 +26,7 @@ class Service(models.Model):
         max_digits=10,
         decimal_places=2,
         validators=[MinValueValidator(0.01)],
-        verbose_name="Цена труд (лв.)",
+        verbose_name="Цена труд (€)",
     )
 
     class Meta:
@@ -35,7 +34,7 @@ class Service(models.Model):
         verbose_name_plural = "Услуги (Ценоразпис)"
 
     def __str__(self):
-        return f"{self.name} - {self.price} лв."
+        return f"{self.name} - {self.price} €."
 
 
 class RepairJob(models.Model):
@@ -100,11 +99,11 @@ class RepairJob(models.Model):
     )
 
     class Meta:
-        verbose_name = "Работен картон"
-        verbose_name_plural = "Работни картони"
+        verbose_name = "Работна карта"
+        verbose_name_plural = "Работни карти"
 
     def __str__(self):
-        return f"Картон #{self.id} - {self.vehicle.vehicle_registration_number}"
+        return f"Работна карта{self.id} - {self.vehicle.vehicle_registration_number}"
 
 
 class RepairService(models.Model):
@@ -146,7 +145,7 @@ class PartOrder(models.Model):
     status = models.CharField(
         max_length=20,
         choices=PartOrderStatusChoices.choices,
-        default=PartOrderStatusChoices.WAITING_DELIVERY,
+        default=PartOrderStatusChoices.FOR_ORDER,
         verbose_name="Статус на частта",
     )
 
@@ -178,3 +177,31 @@ class PartOrder(models.Model):
 
     def __str__(self):
         return f"{self.description} - {self.get_status_display()}"
+
+
+class RepairArchive(models.Model):
+
+    original_job_id = models.IntegerField(
+        verbose_name="ID на оригиналния картон"
+    )
+
+    vehicle_registration_number = models.CharField(
+        max_length=20,
+        verbose_name="Рег. номер на автомобила"
+    )
+
+    archive_data = models.JSONField(
+        verbose_name="JSON Архив на ремонта"
+    )
+
+    archived_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата на архивиране"
+    )
+
+    class Meta:
+        verbose_name = "Архивиран ремонт"
+        verbose_name_plural = "Архивирани ремонти"
+
+    def __str__(self):
+        return f"Архивиран Картон #{self.original_job_id} - {self.vehicle_registration_number}"

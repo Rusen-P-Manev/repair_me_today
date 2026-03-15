@@ -20,7 +20,7 @@ class ClientAdmin(admin.ModelAdmin):
         "first_name",
         "last_name",
         "company_name",
-        "eik",
+        "tax_id",
         "phone_number",
     )
 

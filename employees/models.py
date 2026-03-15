@@ -4,18 +4,18 @@ from common.validators import validate_name_letters_only
 
 class Employee(models.Model):
     first_name = models.CharField(
-        max_length=20,
+        max_length=50,
         verbose_name="Име",
     )
 
     last_name = models.CharField(
-        max_length=20,
+        max_length=50,
         validators=[validate_name_letters_only],
         verbose_name="Фамилия",
     )
 
     position = models.CharField(
-        max_length=30,
+        max_length=50,
         validators=[validate_name_letters_only],
         verbose_name="Длъжност",
     )

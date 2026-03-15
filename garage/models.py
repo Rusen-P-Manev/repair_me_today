@@ -1,6 +1,6 @@
 from django.db import models
 from common.validators import (
-    validate_eik,
+    validate_tax_id,
     validate_phone_number,
     validate_vin,
     custom_email_validator,
@@ -16,30 +16,30 @@ class Client(models.Model):
     )
 
     company_name = models.CharField(
-        max_length=50,
+        max_length=100,
         blank=True,
         null=True,
         verbose_name="Име на юридическо лице",
     )
 
-    eik = models.CharField(
+    tax_id = models.CharField(
         max_length=20,
         blank=True,
         null=True,
         unique=True,
-        validators=[validate_eik],
+        validators=[validate_tax_id],
         verbose_name="ЕИК/Булстат",
     )
 
     address_city = models.CharField(
-        max_length=20,
+        max_length=50,
         blank=True,
         null=True,
         verbose_name="Град",
     )
 
     address_street = models.CharField(
-        max_length=20,
+        max_length=50,
         blank=True,
         null=True,
         verbose_name="Улица и №",
@@ -53,13 +53,13 @@ class Client(models.Model):
     )
 
     first_name = models.CharField(
-        max_length=20,
+        max_length=50,
         validators=[validate_name_letters_only],
         verbose_name="Име / МОЛ",
     )
 
     last_name = models.CharField(
-        max_length=20,
+        max_length=50,
         validators=[validate_name_letters_only],
         verbose_name="Фамилия",
     )
@@ -83,7 +83,7 @@ class Client(models.Model):
 
     def __str__(self):
         if self.is_corporate and self.company_name:
-            return f"{self.company_name} ({self.eik})"
+            return f"{self.company_name} ({self.tax_id})"
         return f"{self.first_name} {self.last_name}"
 
 
@@ -102,12 +102,12 @@ class Vehicle(models.Model):
     )
 
     make = models.CharField(
-        max_length=15,
+        max_length=50,
         verbose_name="Марка",
     )
 
     model = models.CharField(
-        max_length=15,
+        max_length=50,
         verbose_name="Модел",
     )
 
@@ -118,7 +118,7 @@ class Vehicle(models.Model):
     )
 
     vin = models.CharField(
-        max_length=100,
+        max_length=20,
         unique=True,
         validators=[validate_vin],
         verbose_name="VIN номер",

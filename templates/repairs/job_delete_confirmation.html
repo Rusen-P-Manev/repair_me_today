@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Изтриване на картон{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 mt-5">
+        <div class="card kiosk-card text-center p-5 border-danger border-2">
+            <h1 class="display-1 text-danger mb-3">⚠️</h1>
+            <h2 class="fw-bold text-dark">Изтриване на картон #{{ object.id }}</h2>
+
+            <p class="fs-4 mt-3">
+                Автомобил: <strong class="text-primary">{{ object.vehicle.vehicle_registration_number }}</strong>
+            </p>
+
+            <div class="alert alert-warning fs-5">
+                Това действие ще изтрие картона и всички поръчани части към него!
+            </div>
+
+            <form method="POST" class="mt-4 d-flex justify-content-center gap-3">
+                {% csrf_token %}
+                <a href="{% url 'repairs:job_list' %}" class="btn btn-secondary kiosk-btn">Отказ</a>
+                <button type="submit" class="btn btn-danger kiosk-btn fw-bold">🗑️ Да, Изтрий</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

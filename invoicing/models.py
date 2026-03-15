@@ -69,7 +69,7 @@ class Invoice(models.Model):
     )
 
     client_name = models.CharField(
-        max_length=20,
+        max_length=100,
         verbose_name="Получател (Име/Фирма)",
     )
 

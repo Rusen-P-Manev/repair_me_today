@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Каталог Услуги - RepairMeToday{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="display-5 fw-bold text-secondary">🛠️ Каталог Услуги</h1>
+    <a href="{% url 'repairs:service_catalog_create' %}" class="btn btn-primary kiosk-btn shadow-sm">
+        ➕ Нова Услуга
+    </a>
+</div>
+
+<div class="card kiosk-card p-3 border-info border-top border-4">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped align-middle fs-5 mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Наименование на услугата</th>
+                        <th>Цена труд</th>
+                        <th class="text-end">Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in services %}
+                    <tr>
+                        <td class="fw-bold text-dark">{{ service.name }}</td>
+                        <td class="fw-semibold text-success">{{ service.price }} €</td>
+                        <td class="text-end">
+                            <a href="{% url 'repairs:service_catalog_update' service.pk %}" class="btn btn-warning btn-lg me-2">
+                                ✏️ Редакция
+                            </a>
+                            <a href="{% url 'repairs:service_catalog_delete' service.pk %}" class="btn btn-danger btn-lg">
+                                🗑️ Изтрий
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center text-muted py-5">
+                            <h4>Каталогът е празен. Добавете първата си услуга!</h4>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

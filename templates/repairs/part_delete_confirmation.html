@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Премахване на част{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 mt-5">
+        <div class="card kiosk-card text-center p-5 border-danger border-2">
+            <h1 class="display-1 text-danger mb-3"></h1>
+            <h2 class="fw-bold text-dark">Премахване на част</h2>
+
+            <p class="fs-4 mt-3">
+                Сигурни ли сте, че искате да премахнете:<br>
+                <strong class="text-primary fs-3">{{ object.description }}</strong>
+            </p>
+
+            <form method="POST" class="mt-4 d-flex justify-content-center gap-3">
+                {% csrf_token %}
+                <a href="{% url 'repairs:job_detail' object.repair_job.id %}" class="btn btn-secondary kiosk-btn">Отказ</a>
+                <button type="submit" class="btn btn-danger kiosk-btn fw-bold">Премахни</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
