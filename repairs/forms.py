@@ -1,10 +1,9 @@
 from django import forms
-from .models import RepairJob, PartOrder, PartOrderStatusChoices
 from common.mixins import BootstrapFormMixin
-from .models import Service
-from .models import RepairService
-
-
+from .models import (
+    RepairJob, PartOrder, PartOrderStatusChoices,
+    Service, RepairService
+)
 
 # repairjob -->
 class RepairJobCreateForm(BootstrapFormMixin, forms.ModelForm):

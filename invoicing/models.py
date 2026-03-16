@@ -1,9 +1,7 @@
 from django.db import models
 from common.validators import (
-    validate_eik,
-    validate_tax_id,
-    validate_iban,
-    validate_vat_number,
+    validate_eik, validate_tax_id,
+    validate_iban, validate_vat_number,
 )
 
 

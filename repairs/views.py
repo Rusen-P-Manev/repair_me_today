@@ -1,19 +1,19 @@
-from django.shortcuts import render
-from django.urls import reverse_lazy, reverse
-from django.contrib import messages
-from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
-from .models import RepairJob, PartOrder
-from .forms import RepairJobCreateForm, RepairJobUpdateForm, PartOrderForm
-from .forms import PublicClientInfoForm
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import render
+from django.contrib import messages
 from django.views import View
-from .models import RepairService
-from .forms import RepairServiceForm
-from .models import Service
-from .forms import ServiceCatalogForm
-from .models import RepairArchive
-from common.utils import calculate_vat
 from invoicing.models import ShopProfile
+from common.utils import calculate_vat
+from .models import (
+    RepairJob, PartOrder, Service,
+    RepairArchive, RepairService
+)
+from .forms import (
+    RepairJobCreateForm, RepairJobUpdateForm, PartOrderForm,
+    PublicClientInfoForm, ServiceCatalogForm, RepairServiceForm
+)
 
  # repairs -->
 class ViewRepairJobList(ListView):
@@ -151,8 +151,6 @@ class ViewRepairServiceDelete(DeleteView):
         messages.warning(self.request, "Услугата беше премахната от списъка.")
         return super().form_valid(form)
 
-from .models import Service
-from .forms import ServiceCatalogForm
 
 # catalog views -->
 class ViewServiceCatalogList(ListView):

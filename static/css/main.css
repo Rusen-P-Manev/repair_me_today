@@ -1,31 +1,46 @@
-body {
-    background-color: #f4f6f9;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Гарантира, че футерът винаги е долу */
-}
-
-main {
-    flex: 1;
-}
-
-.footer-custom {
-    background-color: #343a40;
-    color: #ffffff;
-    padding: 20px 0;
-    margin-top: auto;
-}
-
-/* Kiosk специфични класове за по-късно */
-.kiosk-btn {
-    padding: 15px 30px;
-    font-size: 1.25rem;
-    border-radius: 10px;
-}
-
-.kiosk-card {
+.card, .kiosk-card {
+    border: none !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
     border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    border: none;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08) !important;
+}
+
+
+.form-control, .form-select {
+    border: none !important;
+    background-color: #f4f6f9 !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04) !important;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15) !important;
+    outline: none;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.table> :not(caption)>*>* {
+    border-bottom-width: 1px;
+    border-bottom-color: #f0f0f0;
 }

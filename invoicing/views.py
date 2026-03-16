@@ -1,16 +1,14 @@
 from django.shortcuts import render
 from decimal import Decimal
-from .models import Invoice
+from .models import Invoice, ShopProfile
 from django.views import View
 from .forms import InvoiceForm
 from django.contrib import messages
 from repairs.models import RepairJob
 from django.urls import reverse_lazy, reverse
-from common.utils import create_repair_archive
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, CreateView, DetailView
-from .models import ShopProfile
-from common.utils import calculate_vat
+from common.utils import create_repair_archive, calculate_vat
 
 
 class ViewInvoiceList(ListView):

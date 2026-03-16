@@ -15,7 +15,6 @@ def calculate_vat(total_amount):
 
 
 def create_repair_archive(job):
-
     parts_data = []
     for part in job.parts.all():
         parts_data.append({
