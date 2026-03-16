@@ -12,6 +12,8 @@ from .forms import RepairServiceForm
 from .models import Service
 from .forms import ServiceCatalogForm
 from .models import RepairArchive
+from common.utils import calculate_vat
+from invoicing.models import ShopProfile
 
  # repairs -->
 class ViewRepairJobList(ListView):
@@ -195,3 +197,23 @@ class ViewRepairArchiveList(ListView):
     context_object_name = 'archives'
     ordering = ['-id']
 
+
+class ViewArchivedInvoiceDetail(DetailView):
+    model = RepairArchive
+    template_name = 'repairs/archived_invoice_detail.html'
+    context_object_name = 'archive'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        archive_data = self.object.archive_data
+
+        context['shop_profile'] = ShopProfile.objects.first()
+
+        total_amount = archive_data.get('invoice_info', {}).get('total_amount', 0)
+        vat_data = calculate_vat(total_amount)
+
+        context['subtotal'] = vat_data['subtotal']
+        context['vat'] = vat_data['vat']
+        context['total_amount'] = total_amount
+
+        return context

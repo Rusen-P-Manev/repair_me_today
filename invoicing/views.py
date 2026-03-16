@@ -10,6 +10,7 @@ from common.utils import create_repair_archive
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, CreateView, DetailView
 from .models import ShopProfile
+from common.utils import calculate_vat
 
 
 class ViewInvoiceList(ListView):
@@ -36,7 +37,7 @@ class ViewInvoiceCreate(CreateView):
             initial['tax_id'] = client.tax_id
         else:
             initial['client_name'] = f"{client.first_name} {client.last_name}"
-        initial['tax_id'] = client.tax_id
+        initial['tax_id'] = client.tax_id if client.tax_id else ""
 
         total = Decimal('0.00')
 
@@ -83,15 +84,15 @@ class ViewInvoiceDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         context['shop_profile'] = ShopProfile.objects.first()
 
         total = float(self.object.total_amount or 0)
         subtotal = total / 1.20
         vat = total - subtotal
 
-        context['subtotal'] = round(subtotal, 2)
-        context['vat'] = round(vat, 2)
+        vat_data = calculate_vat(self.object.total_amount)
+        context['subtotal'] = vat_data['subtotal']
+        context['vat'] = vat_data['vat']
 
         return context
 

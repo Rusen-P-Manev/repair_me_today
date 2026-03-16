@@ -32,7 +32,7 @@
               <li><a class="dropdown-item" href="{% url 'public_client_info' %}">Публична проверка</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="{% url 'repairs:service_catalog_list' %}">Каталог Услуги</a></li>
-              <li><a class="dropdown-item" href="repairs:archive_list">Архив (Платени)</a> </li>
+              <li><a class="dropdown-item" href="{% url 'repairs:archive_list' %}">Архив (Платени)</a> </li>
             </ul>
           </li>
         </li>

@@ -30,4 +30,5 @@ urlpatterns = [
 
 # archives
     path('archive/', views.ViewRepairArchiveList.as_view(), name='archive_list'),
+    path('archive/<int:pk>/invoice/', views.ViewArchivedInvoiceDetail.as_view(), name='archived_invoice'),
 ]

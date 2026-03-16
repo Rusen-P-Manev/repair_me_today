@@ -1,4 +1,17 @@
 from repairs.models import RepairArchive
+from decimal import Decimal
+
+
+def calculate_vat(total_amount):
+    total = Decimal(str(total_amount)) if total_amount else Decimal('0.00')
+    subtotal = total / Decimal('1.20')
+    vat = total - subtotal
+
+    return {
+        'subtotal': round(subtotal, 2),
+        'vat': round(vat, 2)
+    }
+
 
 
 def create_repair_archive(job):
