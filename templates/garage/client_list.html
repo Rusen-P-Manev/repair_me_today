@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
+
 {% block title %}Списък Клиенти - RepairMeToday{% endblock %}
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -29,7 +31,7 @@
                                 <span class="badge bg-secondary">Физическо лице</span>
                             {% endif %}
                         </td>
-                        <td>{{ client.phone_number }}</td>
+                        <td>{{ client.phone_number|format_phone }}</td>
                         <td class="text-end">
                             <a href="{% url 'garage:client_update' client.pk %}" class="btn btn-success fw-bold me-2">Редактирай</a>
                             <a href="{% url 'garage:client_delete' client.pk %}" class="btn btn-danger fw-bold">Изтрий</a>

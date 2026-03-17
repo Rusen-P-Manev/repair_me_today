@@ -65,11 +65,9 @@
     function updateClock() {
         const now = new Date();
 
-        // Форматиране на датата
         const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
         document.getElementById('current-date').textContent = now.toLocaleDateString('bg-BG', dateOptions);
 
-        // Форматиране на часа
         const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
         document.getElementById('current-time').textContent = now.toLocaleTimeString('bg-BG', timeOptions);
     }

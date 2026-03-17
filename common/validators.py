@@ -14,7 +14,6 @@ def validate_eik(value):
         raise ValidationError("ЕИК/Булстат трябва да съдържа точно 9 или 13 цифри.")
 
 def validate_tax_id(value):
-    # Позволява 9, 10 (ЕГН) или 13 цифри
     if not re.match(r'^(\d{9}|\d{10}|\d{13})$', value):
         raise ValidationError("Невалиден формат. ЕИК трябва да е 9 или 13 цифри, а ЕГН - 10 цифри.")
 
