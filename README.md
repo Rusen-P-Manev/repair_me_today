@@ -55,8 +55,8 @@
 1. **Клонирайте хранилището**:
     
     ```Bash
-    git clone https://github.com/your-username/repair-me-today.git
-    cd repair-me-today
+    git clone https://github.com/Rusen-P-Manev/repair_me_today.git
+    cd repair_me_today
     ```
     
 2. **Създайте и активирайте виртуална среда**:
