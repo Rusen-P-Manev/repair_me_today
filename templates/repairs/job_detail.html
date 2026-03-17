@@ -2,19 +2,19 @@
 {% block title %}Работна карта {{ job.id }} - RepairMeToday{% endblock %}
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="display-5 fw-bold text-secondary">Работна карта <span class="text-primary">{{ job.id }}</span></h1>
+    <h1 class="display-5 fw-bold text-secondary">Работна карта</h1>
     <div>
-        <a href="{% url 'repairs:job_update' job.pk %}" class="btn btn-warning kiosk-btn shadow-sm me-2">Редактирай статуса</a>
-        <a href="{% url 'repairs:job_list' %}" class="btn btn-secondary kiosk-btn shadow-sm">Назад към списъка</a>
+        <a href="{% url 'repairs:job_list' %}" class="btn btn-light text-dark border fw-bold shadow-sm me-2">Върни към списъка</a>
+        <a href="{% url 'repairs:job_update' job.pk %}" class="btn btn-success fw-bold shadow-sm">Редактирай</a>
     </div>
 </div>
 <div class="row g-4">
     <div class="col-lg-5">
         <div class="card kiosk-card p-4 h-100 border-primary border-top border-4">
             <h3 class="fw-bold mb-4">Данни за автомобила</h3>
-            <p class="fs-5 mb-2"><span class="text-muted">Рег. номер:</span> <span class="badge bg-warning text-dark fs-5 border border-dark">{{ job.vehicle.vehicle_registration_number }}</span></p>
-            <p class="fs-5 mb-2"><span class="text-muted">Марка/Модел:</span> <strong>{{ job.vehicle.make }} {{ job.vehicle.model }}</strong></p>
-            <p class="fs-5 mb-2"><span class="text-muted">Собственик:</span> {{ job.vehicle.client }}</p>
+            <p class="fs-5 mb-2"><span class="text-muted">Рег. Номер:</span> <span class="badge border border-secondary text-secondary bg-transparent fs-5">{{ job.vehicle.vehicle_registration_number }}</span></p>
+            <p class="fs-5 mb-2"><span class="text-muted">Марка / Модел:</span> <strong>{{ job.vehicle.make }} {{ job.vehicle.model }}</strong></p>
+            <p class="fs-5 mb-2"><span class="text-muted">Клиент:</span> {{ job.vehicle.client }}</p>
             <hr>
             <p class="fs-5 mb-2"><span class="text-muted">Текущ статус:</span> <strong>{{ job.get_status_display }}</strong></p>
             <p class="fs-5 mb-2"><span class="text-muted">Приел автомобила:</span> {{ job.received_by|default:"-" }}</p>
@@ -39,7 +39,7 @@
                 <h3 class="fw-bold mb-0">Части / Услуги</h3>
                 <div>
                     <a href="{% url 'repairs:part_create' job.id %}" class="btn btn-primary fs-5 fw-bold px-3 rounded-pill me-2">Добави част</a>
-                    <a href="{% url 'repairs:service_create' job.id %}" class="btn btn-success fs-5 fw-bold px-3 rounded-pill">Добави услуга</a>
+                    <a href="{% url 'repairs:service_create' job.id %}" class="btn btn-primary fs-5 fw-bold px-3 rounded-pill">Добави услуга</a>
                 </div>
             </div>
             <div class="table-responsive">
@@ -58,7 +58,7 @@
                             <td class="fw-semibold">Услуга: {{ rs.service.name }}</td>
                             <td>{{ rs.quantity }} бр./ч.</td>
                             <td>{{ rs.service.price }} €</td>
-                            <td class="text-end"><a href="{% url 'repairs:service_delete' rs.id %}" class="btn btn-sm btn-outline-danger fw-bold">Изтрий</a></td>
+                            <td class="text-end"><a href="{% url 'repairs:service_delete' rs.id %}" class="btn btn-sm btn-danger fw-bold">Изтрий</a></td>
                         </tr>
                         {% endfor %}
                         {% for part in job.parts.all %}
@@ -70,7 +70,7 @@
                                 {% elif part.status == 'delivered' %}<span class="badge bg-success">Доставена</span>{% endif %}
                             </td>
                             <td>{% if part.price %}{{ part.price }} €{% else %}-{% endif %}</td>
-                            <td class="text-end"><a href="{% url 'repairs:part_delete' part.id %}" class="btn btn-sm btn-outline-danger fw-bold">Изтрий</a></td>
+                            <td class="text-end"><a href="{% url 'repairs:part_delete' part.id %}" class="btn btn-sm btn-danger fw-bold">Изтрий</a></td>
                         </tr>
                         {% endfor %}
                         {% if not job.parts.all and not job.repairservice_set.all %}

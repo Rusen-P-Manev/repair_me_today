@@ -10,9 +10,8 @@ class PartOrderStatusChoices(models.TextChoices):
 
 
 class RepairStatusChoices(models.TextChoices):
-    RECEIVED = "received", "Приет"
-    IN_PROGRESS = "in_progress", "В процес на работа"
-    WAITING_PARTS = "waiting_parts", "Чака части"
+    RECEIVED = "received", "За ремонт"
+    IN_PROGRESS = "in_progress", "В ремонт"
     COMPLETED = "completed", "Завършен"
 
 
@@ -26,7 +25,7 @@ class Service(models.Model):
         max_digits=10,
         decimal_places=2,
         validators=[MinValueValidator(0.01)],
-        verbose_name="Цена труд (€)",
+        verbose_name="Стойност труд (€)",
     )
 
     class Meta:

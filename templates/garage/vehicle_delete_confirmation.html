@@ -11,10 +11,10 @@
             <div class="alert alert-warning fs-5">
                 Изтриването на автомобила ще премахне и цялата история на ремонтите му!
             </div>
-            <form method="POST" class="mt-4 d-flex justify-content-center gap-3">
+            <form method="POST" class="mt-4 d-flex justify-content-between">
                 {% csrf_token %}
-                <a href="{% url 'garage:vehicle_list' %}" class="btn btn-secondary kiosk-btn">Отказ</a>
-                <button type="submit" class="btn btn-danger kiosk-btn fw-bold">Да, Изтрий</button>
+                <a href="{% url 'garage:vehicle_list' %}" class="btn btn-light text-dark border fw-bold px-4">Върни към списъка</a>
+                <button type="submit" class="btn btn-danger fw-bold px-5">Да, изтрий</button>
             </form>
         </div>
     </div>

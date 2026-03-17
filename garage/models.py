@@ -88,7 +88,7 @@ class Vehicle(models.Model):
         "Client",
         on_delete=models.CASCADE,
         related_name="vehicles",
-        verbose_name="Собственик",
+        verbose_name="Клиент",
     )
 
     vehicle_registration_number = models.CharField(

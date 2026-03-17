@@ -3,7 +3,7 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="display-5 fw-bold text-secondary">Списък с Клиенти</h1>
-    <a href="{% url 'garage:client_create' %}" class="btn btn-primary kiosk-btn shadow-sm">Нов Клиент</a>
+    <a href="{% url 'garage:client_create' %}" class="btn btn-primary fw-bold shadow-sm px-4">Добави Клиент</a>
 </div>
 <div class="card kiosk-card p-3">
     <div class="card-body p-0">
@@ -31,8 +31,8 @@
                         </td>
                         <td>{{ client.phone_number }}</td>
                         <td class="text-end">
-                            <a href="{% url 'garage:client_update' client.pk %}" class="btn btn-warning btn-lg me-2">Редакция</a>
-                            <a href="{% url 'garage:client_delete' client.pk %}" class="btn btn-danger btn-lg">Изтрий</a>
+                            <a href="{% url 'garage:client_update' client.pk %}" class="btn btn-success fw-bold me-2">Редактирай</a>
+                            <a href="{% url 'garage:client_delete' client.pk %}" class="btn btn-danger fw-bold">Изтрий</a>
                         </td>
                     </tr>
                     {% empty %}

@@ -35,7 +35,7 @@
                         </td>
                         <td class="text-muted">{{ invoice.created_at|date:"d.m.Y" }}</td>
                         <td class="text-end">
-                            <a href="{% url 'invoicing:invoice_detail' invoice.pk %}" class="btn btn-info btn-lg text-white fw-bold">Преглед</a>
+                            <a href="{% url 'invoicing:invoice_detail' invoice.pk %}" class="btn btn-primary fw-bold">Отвори</a>
                         </td>
                     </tr>
                     {% empty %}

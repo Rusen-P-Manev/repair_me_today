@@ -4,15 +4,15 @@
 <div class="row justify-content-center">
     <div class="col-lg-10">
         <div class="d-flex justify-content-between mb-3 d-print-none">
-            <a href="{% url 'invoicing:invoice_list' %}" class="btn btn-secondary kiosk-btn">Всички фактури</a>
+            <a href="{% url 'invoicing:invoice_list' %}" class="btn btn-light text-dark border fw-bold px-4">Върни към списъка</a>
             <div>
                 {% if not invoice.is_paid %}
                 <form method="POST" action="{% url 'invoicing:invoice_mark_paid' invoice.pk %}" class="d-inline">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-success kiosk-btn me-2 fw-bold">Маркирай като ПЛАТЕНА</button>
+                    <button type="submit" class="btn btn-success fw-bold px-4 me-2">Маркирай като ПЛАТЕНА</button>
                 </form>
                 {% endif %}
-                <button onclick="window.print()" class="btn btn-outline-dark kiosk-btn">Отпечатай</button>
+                <button onclick="window.print()" class="btn btn-outline-secondary fw-bold px-4">Отпечатай</button>
             </div>
         </div>
         <div class="card shadow-sm border-0 mb-4 kiosk-card">
@@ -47,7 +47,7 @@
                             <p class="mb-1"><strong>ЕИК / ЕГН:</strong> {{ invoice.tax_id }}</p>
                         {% endif %}
                         <p class="mb-1 text-muted mt-3">Ремонт по Работна карта: <strong>#{{ invoice.repair_job.id }}</strong></p>
-                        <p class="mb-1 text-muted">Автомобил: <strong>{{ invoice.repair_job.vehicle.vehicle_registration_number }}</strong></p>
+                        <p class="mb-1 text-muted">Автомобил: <span class="badge border border-secondary text-secondary bg-transparent fs-6">{{ invoice.repair_job.vehicle.vehicle_registration_number }}</span></p>
                     </div>
                 </div>
                 <div class="table-responsive mb-4">
@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-start mt-5 d-print-none border-top pt-4">
-                    <a href="{% url 'repairs:job_detail' invoice.repair_job.id %}" class="btn btn-secondary btn-lg">Към картата</a>
+                    <a href="{% url 'repairs:job_detail' invoice.repair_job.id %}" class="btn btn-light text-dark border fw-bold px-4 mb-3">Назад</a>
                 </div>
             </div>
         </div>

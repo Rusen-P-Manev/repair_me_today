@@ -23,8 +23,11 @@
                     {% endfor %}
                 </div>
                 <div class="d-flex justify-content-between mt-5">
-                    <a href="{% url 'garage:client_list' %}" class="btn btn-secondary kiosk-btn">Назад</a>
-                    <button type="submit" class="btn btn-success kiosk-btn px-5">Запази</button>
+                    <a href="{% url 'garage:client_list' %}" class="btn btn-light text-dark border fw-bold px-4">Върни към списъка</a>
+                    <div class="d-flex gap-2">
+                        <button type="submit" name="save_and_add_vehicle" class="btn btn-primary fw-bold px-4">Запази и добави автомобил</button>
+                        <button type="submit" class="btn btn-success fw-bold px-5">Запази</button>
+                    </div>
                 </div>
             </form>
         </div>

@@ -1,86 +1,80 @@
 {% extends 'base.html' %}
-{% block title %}Табло - RepairMeToday{% endblock %}
+{% block title %}Работно Табло - RepairMeToday{% endblock %}
+
 {% block content %}
-<div class="mb-4">
-    <h1 class="display-4 fw-bold text-secondary">Добре дошли в Kiosk Таблото</h1>
-    <p class="fs-4 text-muted">Бърз преглед на сервиза и бързи връзки към основните функции.</p>
-</div>
-<div class="row g-4 mb-5">
-    <div class="col-md-3">
-        <div class="card kiosk-card bg-primary text-white text-center p-4 h-100">
-            <h1 class="display-3 fw-bold">{{ active_jobs_count }}</h1>
-            <h4 class="mb-0">Активни ремонта</h4>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card kiosk-card bg-success text-white text-center p-4 h-100">
-            <h1 class="display-3 fw-bold">{{ completed_jobs_count }}</h1>
-            <h4 class="mb-0">Завършени (Общо)</h4>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card kiosk-card bg-warning text-dark text-center p-4 h-100">
-            <h1 class="display-3 fw-bold">{{ total_vehicles }}</h1>
-            <h4 class="mb-0">Регистрирани МПС</h4>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card kiosk-card bg-info text-dark text-center p-4 h-100">
-            <h1 class="display-3 fw-bold">{{ total_clients }}</h1>
-            <h4 class="mb-0">Наши Клиенти</h4>
-        </div>
+<div class="d-flex justify-content-between align-items-center mb-5">
+    <h1 class="display-5 fw-bold text-secondary mb-0">Работно табло</h1>
+    
+    <div class="border border-dark border-2 rounded p-3 bg-light text-dark fw-bold fs-4 shadow-sm" id="datetime-box">
+        <span id="current-date"></span> | <span id="current-time"></span>
     </div>
 </div>
-<div class="row g-4">
-    <div class="col-lg-4">
-        <div class="card kiosk-card p-4 h-100 border-top border-dark border-4">
-            <h3 class="fw-bold mb-4">Бързи действия</h3>
-            <div class="d-grid gap-3">
-                <a href="{% url 'repairs:job_create' %}" class="btn btn-primary kiosk-btn fw-bold">Нов Работен Картон</a>
-                <a href="{% url 'garage:vehicle_create' %}" class="btn btn-warning kiosk-btn fw-bold text-dark">Добави Автомобил</a>
-                <a href="{% url 'garage:client_create' %}" class="btn btn-info kiosk-btn fw-bold text-dark">Нов Клиент</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-8">
-        <div class="card kiosk-card p-4 h-100 border-top border-secondary border-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="fw-bold mb-0">Последни ремонти</h3>
-                <a href="{% url 'repairs:job_list' %}" class="btn btn-sm btn-outline-secondary fs-5">Всички</a>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-hover align-middle fs-5">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Картон №</th>
-                            <th>Автомобил</th>
-                            <th>Статус</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for job in recent_jobs %}
-                        <tr>
-                            <td class="fw-bold">#{{ job.id }}</td>
-                            <td>{{ job.vehicle.make }} {{ job.vehicle.model }} <br>
-                                <small class="text-muted">{{ job.vehicle.vehicle_registration_number }}</small>
-                            </td>
-                            <td>
-                                {% if job.status == 'completed' %}
-                                    <span class="badge bg-success">Завършен</span>
-                                {% else %}
-                                    <span class="badge bg-primary">{{ job.get_status_display }}</span>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="3" class="text-center text-muted">Няма регистрирани ремонти.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+
+<div class="card kiosk-card p-4 mb-5 border-top border-primary border-4 shadow-sm">
+    <div class="d-flex flex-column flex-md-row gap-3">
+        <a href="{% url 'garage:client_create' %}" class="btn btn-primary kiosk-btn fw-bold text-white flex-fill fs-4 py-3">Добави клиент</a>
+        <a href="{% url 'garage:vehicle_create' %}" class="btn btn-primary kiosk-btn fw-bold text-white flex-fill fs-4 py-3">Добави автомобил</a>
+        <a href="{% url 'repairs:job_create' %}" class="btn btn-primary kiosk-btn fw-bold text-white flex-fill fs-4 py-3">Нова работна карта</a>
     </div>
 </div>
+
+<div class="card kiosk-card p-4 mb-5 pb-5 border-top border-secondary border-4 shadow-sm">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold mb-0 text-secondary">Текущи ремонти</h3>
+        <a href="{% url 'repairs:job_list' %}" class="btn btn-warning text-dark fs-5 fw-bold shadow-sm px-4">Всички</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle fs-5">
+            <thead class="table-light">
+                <tr>
+                    <th>Автомобил</th>
+                    <th>Клиент</th>
+                    <th>Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in recent_jobs %}
+                <tr onclick="window.location='{% url 'repairs:job_detail' job.pk %}'" style="cursor: pointer;" title="Отвори работна карта #{{ job.id }}">
+                    <td>
+                        <strong>{{ job.vehicle.make }} {{ job.vehicle.model }}</strong> <br>
+                        <span class="badge border border-secondary text-secondary bg-transparent mt-1 fs-6">{{ job.vehicle.vehicle_registration_number }}</span>
+                    </td>
+                    <td>
+                        {{ job.vehicle.client.first_name }} {{ job.vehicle.client.last_name }}
+                    </td>
+                    <td>
+                        {% if job.status == 'received' %}
+                            <span class="badge bg-secondary">{{ job.get_status_display }}</span>
+                        {% elif job.status == 'in_progress' %}
+                            <span class="badge bg-primary">{{ job.get_status_display }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center text-muted py-4">Няма активни ремонти в момента.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function updateClock() {
+        const now = new Date();
+
+        // Форматиране на датата
+        const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        document.getElementById('current-date').textContent = now.toLocaleDateString('bg-BG', dateOptions);
+
+        // Форматиране на часа
+        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+        document.getElementById('current-time').textContent = now.toLocaleTimeString('bg-BG', timeOptions);
+    }
+    
+    updateClock();
+    setInterval(updateClock, 1000);
+</script>
 {% endblock %}

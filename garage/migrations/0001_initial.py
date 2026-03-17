@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
                 ('model', models.CharField(max_length=15, verbose_name='Модел')),
                 ('year', models.PositiveIntegerField(verbose_name='Година на производство')),
                 ('vin', models.CharField(max_length=100, unique=True, verbose_name='VIN номер')),
-                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='vehicles', to='garage.client', verbose_name='Собственик')),
+                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='vehicles', to='garage.client', verbose_name='Клиент')),
             ],
             options={
                 'verbose_name': 'Автомобил',

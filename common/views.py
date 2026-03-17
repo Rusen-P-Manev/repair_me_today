@@ -16,6 +16,6 @@ class ViewDashboard(TemplateView):
         context['total_clients'] = Client.objects.count()
         context['total_vehicles'] = Vehicle.objects.count()
 
-        context['recent_jobs'] = RepairJob.objects.order_by('-created_at')[:5]
+        context['recent_jobs'] = context['active_jobs'].order_by('-created_at')
 
         return context

@@ -1,7 +1,6 @@
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
-from django.shortcuts import render
 from django.contrib import messages
 from django.views import View
 from invoicing.models import ShopProfile
@@ -78,7 +77,12 @@ class ViewPartOrderCreate(CreateView):
         form.instance.repair_job = repair_job
 
         messages.success(self.request, "Авточастта беше добавена към ремонта!")
-        return super().form_valid(form)
+        response = super().form_valid(form)
+
+        if 'save_and_add_another' in self.request.POST:
+            return redirect('repairs:part_create', job_id=job_id)
+
+        return response
 
     def get_success_url(self):
         return reverse('repairs:job_detail', kwargs={'pk': self.kwargs.get('job_id')})
@@ -134,7 +138,12 @@ class ViewRepairServiceCreate(CreateView):
         form.instance.repair_job = repair_job
 
         messages.success(self.request, "Услугата беше добавена към ремонта!")
-        return super().form_valid(form)
+        response = super().form_valid(form)
+
+        if 'save_and_add_another' in self.request.POST:
+            return redirect('repairs:service_create', job_id=job_id)
+
+        return response
 
     def get_success_url(self):
         return reverse('repairs:job_detail', kwargs={'pk': self.kwargs.get('job_id')})
@@ -159,6 +168,7 @@ class ViewServiceCatalogList(ListView):
     context_object_name = 'services'
     ordering = ['name']
 
+
 class ViewServiceCatalogCreate(CreateView):
     model = Service
     form_class = ServiceCatalogForm
@@ -167,7 +177,12 @@ class ViewServiceCatalogCreate(CreateView):
 
     def form_valid(self, form):
         messages.success(self.request, "Услугата беше добавена в каталога!")
-        return super().form_valid(form)
+        response = super().form_valid(form)
+
+        if 'save_and_add_another' in self.request.POST:
+            return redirect(self.request.path)
+
+        return response
 
 class ViewServiceCatalogUpdate(UpdateView):
     model = Service
