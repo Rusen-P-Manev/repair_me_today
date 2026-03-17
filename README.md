@@ -75,35 +75,35 @@
     ```
     
 4. **Конфигурирайте променливите на средата**:
-    
-    Конфигурирайте променливите на средата:
-	Копирайте файла `.env.example` и го преименувайте на `.env` или просто иьтрикте `.example`. 
 
-	За целите на проверката и локалното тестване, файлът `.env` трябва да изглежда така:
+   Копирайте файла .env.example и го преименувайте на .env (или просто изтрийте разширението .example). 
+   За целите на проверката и локалното тестване, файлът .env трябва да изглежда така:
 	
-	```env
-	SECRET_KEY=EZbjfJwNvSI6fZlRRlk8zLFtA9xIVeGH
-	DB_NAME=repair_me_today_db
-	DB_USER=postgres
-	DB_PASSWORD=admin
-	DB_HOST=localhost
-	DB_PORT=5432
-	```
-3. **Изпълнете миграциите**:
-4. 
+    ```env
+    SECRET_KEY=EZbjfJwNvSI6fZlRRlk8zLFtA9xIVeGH
+    DB_NAME=repair_me_today_db
+    DB_USER=postgres
+    DB_PASSWORD=admin
+    DB_HOST=localhost
+    DB_PORT=5432
+    ```
+   *Важно: За да стартирате проекта успешно, моля създайте празна PostgreSQL база данни с име repair_me_today_db,потребител postgres и парола admin. Ако вашият локален Postgres сървър изисква други данни, просто ги подменете в .env файла.*   
+
+5. **Изпълнете миграциите**:
+
     ```Bash
-    python manage.py makemigtations
+    python manage.py makemigrations
     python manage.py migrate
     ```
     
-5. **Създайте Superuser (Админ)**:
-6. 
+6. **Създайте Superuser (Админ)**:
+
     ```Bash
     python manage.py createsuperuser
     ```
     
 7. **Стартирайте сървъра**:
-8. 
+
     ```Bash
     python manage.py runserver
     ```
